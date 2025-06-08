@@ -5,8 +5,6 @@ namespace LaradumpsFilament;
 use Filament\Contracts\Plugin;
 use Filament\Forms\Components\Field;
 use Filament\Panel;
-use Filament\Support\Facades\FilamentAsset;
-use Filament\Support\Assets\Js;
 use Filament\View\PanelsRenderHook;
 
 class LaradumpsPlugin implements Plugin
@@ -18,7 +16,26 @@ class LaradumpsPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        if (!app()->isLocal()) {
+        Field::macro('ds', function (bool $onBlur = true, ?int $debounce = null, string $color = 'orange'): Field {
+            if (! app()->isLocal()) {
+                \Log::debug('LaraDumps: ds() macro called in non-local environment, skipping.');
+
+                return $this;
+            }
+
+            $label = $this->getLabel();
+
+            $this
+                ->live($onBlur, $debounce)
+                ->afterStateUpdated(fn (mixed $state) => ds($state)
+                    ->color($color)
+                    ->label($label)
+                );
+
+            return $this;
+        });
+
+        if (! app()->isLocal()) {
             return;
         }
 
@@ -31,18 +48,9 @@ class LaradumpsPlugin implements Plugin
                 PanelsRenderHook::BODY_END,
                 fn (): string => \Blade::render('@livewire(\'LaradumpsFilament\DsComponent\')'),
             );
-
-        Field::macro('ds', function (...$args): Field {
-            ds(...$args);
-
-            return $this;
-        });
     }
 
-    public function boot(Panel $panel): void
-    {
-
-    }
+    public function boot(Panel $panel): void {}
 
     public static function make(): static
     {
