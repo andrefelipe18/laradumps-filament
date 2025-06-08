@@ -1,6 +1,6 @@
-# Laradumps Filament
+# LaraDumps Filament
 
-This package provides a simple way to integrate Laradumps with Filament.
+This package provides a simple way to integrate LaraDumps with Filament.
 
 ## Installation
 
@@ -29,6 +29,30 @@ class MyPanelProvider extends PanelProvider
 
 ## Usage
 
+### Form Fields
+
+Use the `ds()` method on any Filament form field to automatically send its state to LaraDumps when updated:
+
+```php
+use Filament\Forms\Components\TextInput;
+
+TextInput::make('name')
+    ->label('Name')
+    ->ds(),
+```
+
+When the field's value is updated, the current state will be dumped with the field's label using LaraDumps.
+You can customize the behavior of the `ds()` method by passing parameters:
+
+```php
+->ds(
+    bool $onBlur = true,         // Trigger on blur (default: true)
+    ?int $debounce = null,       // Optional debounce delay in ms
+    string $color = 'orange'     // LaraDumps color label (default: 'orange')
+)
+```
+
+### JavaScript
 Now you can use `$ds` magic in your Filament pages
 
 ```php
