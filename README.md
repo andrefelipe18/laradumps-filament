@@ -29,57 +29,114 @@ class MyPanelProvider extends PanelProvider
 
 ## Usage
 
-### Form Fields
+The LaraDumps Filament package provides debugging capabilities for Filament components through the `ds()` method. This method is available on form fields, tables, and also provides JavaScript debugging capabilities.
 
-Use the `ds()` method on any Filament form field to automatically send its state to LaraDumps when updated:
+> **Important:** The `ds()` method only works in local environment. In production, the method calls are safely ignored.
+
+### 🔧 Form Fields Debugging
+
+The `ds()` method can be applied to any Filament form field to automatically capture and send its state changes to LaraDumps.
+
+#### Basic Usage
 
 ```php
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 
 TextInput::make('name')
-    ->label('Name')
-    ->ds(),
+    ->label('Full Name')
+    ->required()
+    ->ds(), // Debug field changes
+
+Select::make('status')
+    ->label('User Status')
+    ->options([
+        'active' => 'Active',
+        'inactive' => 'Inactive',
+    ])
+    ->ds(onBlur: false, debounce: 0, color: 'green'),
 ```
 
-When the field's value is updated, the current state will be dumped with the field's label using LaraDumps.
-You can customize the behavior of the `ds()` method by passing parameters:
+#### Advanced Configuration
 
-> Important: Always call the `->ds()` method at the end of the field definition chain. This ensures it captures the final state and doesn’t override any subsequent configuration.
+The `ds()` method accepts several parameters to customize its behavior:
 
 ```php
 ->ds(
-    bool $onBlur = true,         // Trigger on blur (default: true)
-    ?int $debounce = null,       // Optional debounce delay in ms
+    bool $onBlur = true,         // Trigger on blur event (default: true)
+    ?int $debounce = null,       // Debounce delay in milliseconds
     string $color = 'orange'     // LaraDumps color label (default: 'orange')
 )
 ```
 
-### Table
+> **Important:** Always call `->ds()` at the end of the field definition chain to ensure it captures the final configuration.
 
-You can also use the `ds()` method on Filament tables to dump the current state of the table:
+### 📊 Table Debugging
+
+The `ds()` method on Filament tables provides comprehensive debugging information about the table's configuration, query performance, and structure.
+
+#### Basic Usage
 
 ```php
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 
 public function table(Table $table): Table
 {
     return $table
         ->columns([
+            TextColumn::make('name')
+                ->label('Name')
+                ->sortable()
+                ->searchable(),
+                
             // ...
         ])
-        ->ds(); // Dumps table
+        ->filters([
+            SelectFilter::make('status')
+                ->options([
+                    'active' => 'Active',
+                    'inactive' => 'Inactive',
+                ]),
+        ])
+        ->actions([
+            // ... your actions
+        ])
+        ->ds(color: 'green'); // Debug table configuration and performance
 }
 ```
 
-> Important: Always call the `->ds()` method at the end of the field definition chain. This ensures it captures the final state and doesn’t override any subsequent configuration.
+### 🚀 JavaScript Debugging
 
-### JavaScript
-Now you can use `$ds` magic in your Filament pages
+The package automatically injects LaraDumps JavaScript integration, allowing you to use the `$ds` magic method in your Blade templates and Alpine.js components.
 
-```php
-<div 
-  x-init"$ds('Hello World')"
->
-  <h1>Hello World</h1>
+#### Basic Usage
+
+```blade
+<div x-data="{ message: 'Hello World' }">
+    <button 
+        x-on:click="$ds(message)"
+        type="button"
+    >
+        Debug Message
+    </button>
 </div>
 ```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Missing JavaScript debugging**: Verify that the plugin is registered in your Panel Provider.
+
+### Debug Information Not Showing
+
+Make sure:
+- Your application is running in local environment (`APP_ENV=local`)
+- The plugin is registered in your Panel Provider
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
