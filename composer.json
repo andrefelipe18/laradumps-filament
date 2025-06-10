@@ -1,6 +1,6 @@
 {
     "name": "andrefelipe18/laradumps-filament",
-    "description": "Laradumps integration for Filament",
+    "description": "LaraDumps integration for Filament",
     "keywords": [
         "laradumps",
         "laravel",
@@ -30,7 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "LaradumpsFilament\\": "src/"
+            "LaraDumpsFilament\\": "src/"
         }
     },
     "scripts": {
@@ -49,7 +49,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "LaradumpsFilament\\LaradumpsFilamentServiceProvider"
+                "LaraDumpsFilament\\LaraDumpsFilamentServiceProvider"
             ]
         }
     },

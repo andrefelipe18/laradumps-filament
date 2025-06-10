@@ -10,10 +10,10 @@ You can install the package via composer:
 composer require --dev andrefelipe18/laradumps-filament
 ```
 
-Once installed, you can use the `LaradumpsPlugin` in your PanelProvider:
+Once installed, you can use the `LaraDumpsPlugin` in your PanelProvider:
 
 ```php
-use LaradumpsFilament\LaradumpsPlugin;
+use LaraDumpsFilament\LaraDumpsPlugin;
 
 class MyPanelProvider extends PanelProvider
 {
@@ -21,7 +21,7 @@ class MyPanelProvider extends PanelProvider
     {
         return $panel
             ->plugins([
-                LaradumpsPlugin::make(),
+                LaraDumpsPlugin::make(),
             ]);
     }
 }
@@ -91,7 +91,7 @@ public function table(Table $table): Table
                 ->label('Name')
                 ->sortable()
                 ->searchable(),
-                
+
             // ...
         ])
         ->filters([
@@ -116,7 +116,7 @@ The package automatically injects LaraDumps JavaScript integration, allowing you
 
 ```blade
 <div x-data="{ message: 'Hello World' }">
-    <button 
+    <button
         x-on:click="$ds(message)"
         type="button"
     >
@@ -134,8 +134,9 @@ The package automatically injects LaraDumps JavaScript integration, allowing you
 ### Debug Information Not Showing
 
 Make sure:
-- Your application is running in local environment (`APP_ENV=local`)
-- The plugin is registered in your Panel Provider
+
+-   Your application is running in local environment (`APP_ENV=local`)
+-   The plugin is registered in your Panel Provider
 
 ## License
 

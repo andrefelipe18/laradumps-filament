@@ -2,12 +2,12 @@
 
 declare(strict_types = 1);
 
-namespace LaradumpsFilament;
+namespace LaraDumpsFilament;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class LaradumpsFilamentServiceProvider extends PackageServiceProvider
+class LaraDumpsFilamentServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
