@@ -23,13 +23,13 @@ class LaraDumpsFilament
         ];
     }
 
-    public static function dump(BaseDebug $debug, string $label, string $color): LaraDumps
+    public static function dump(BaseDebug $debug, string $label, string $color, ?string $type = null): LaraDumps
     {
         $laradumps = new LaraDumps();
 
         [$pre, $id] = Dumper::dump($debug);
 
-        $payload = new DumpPayload($pre, $debug, variableType: gettype($debug), screen: 'Filament');
+        $payload = new DumpPayload($pre, $debug, variableType: $type ?? gettype($debug), screen: 'Filament');
         $payload->setDumpId($id);
         $payload->setFrame(self::makeFrame());
         $payload->toScreen();
