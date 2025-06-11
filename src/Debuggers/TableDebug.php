@@ -89,9 +89,9 @@ class TableDebug extends BaseDebug
     public static function mountPagination(Table $table): array
     {
         return [
-            'Is Paginated'      => $table->isPaginated(),
-            'Records Per Page'  => $table->getPaginationPageOptions()[0] ?? null,
-            'Page Options'      => $table->getPaginationPageOptions(),
+            'Is Paginated'     => $table->isPaginated(),
+            'Records Per Page' => $table->getPaginationPageOptions()[0] ?? null,
+            'Page Options'     => $table->getPaginationPageOptions(),
         ];
     }
 
@@ -132,10 +132,10 @@ class TableDebug extends BaseDebug
         ])->toArray();
 
         return [
-            'Row Actions'           => $actions,
-            'Bulk Actions'          => $bulkActions,
-            'Header Actions'        => $headerActions,
-            'Actions Position'      => $table->getActionsPosition(),
+            'Row Actions'      => $actions,
+            'Bulk Actions'     => $bulkActions,
+            'Header Actions'   => $headerActions,
+            'Actions Position' => $table->getActionsPosition(),
         ];
     }
 }

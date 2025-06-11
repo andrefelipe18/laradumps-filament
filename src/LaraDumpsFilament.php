@@ -23,7 +23,7 @@ class LaraDumpsFilament
         ];
     }
 
-    public static function dump(BaseDebug $debug, string $label, string $color, ?string $type = null): LaraDumps
+    public static function dump(BaseDebug $debug, string $label, string $color = 'orange', ?string $type = null): LaraDumps
     {
         $laradumps = new LaraDumps();
 

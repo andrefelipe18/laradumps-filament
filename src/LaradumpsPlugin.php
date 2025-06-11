@@ -89,7 +89,7 @@ class LaraDumpsPlugin implements Plugin
                             $fieldDebug,
                             label: "Field: {$field->getLabel()} ({$field->getName()})",
                             color: $color,
-                            type: class_basename($field),
+                            type: ' ' . $field::class . '::make("' . $field->getName() . '") ',
                         );
                     }
                 );
