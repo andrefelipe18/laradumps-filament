@@ -2,6 +2,14 @@
 
 All notable changes to `laradumps-filament` will be documented in this file.
 
+## v1.4.0 - 2025-06-11
+
+### What's Changed
+
+* feat: Add DumpFormState attribute for form state logging  by @andrefelipe18 in https://github.com/andrefelipe18/laradumps-filament/pull/4
+
+**Full Changelog**: https://github.com/andrefelipe18/laradumps-filament/compare/v1.3.0...v1.4.0
+
 ## v1.3.0 - 2025-06-10
 
 ### What's Changed
