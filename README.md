@@ -72,6 +72,40 @@ The `ds()` method accepts several parameters to customize its behavior:
 
 > **Important:** Always call `->ds()` at the end of the field definition chain to ensure it captures the final configuration.
 
+### Attribute `DumpFormState`
+
+You can also use the `DumpFormState` attribute to automatically dump the form state when the form is submitted. 
+This is useful for debugging the entire form state at once.
+
+```php
+
+// Dumping Create/Edit Resource Pages
+#[\LaraDumpsFilament\Attributes\DumpFormState]
+class CreateUser extends CreateRecord
+{
+   // ...
+}
+
+
+// Dumping Custom Pages
+#[\LaraDumpsFilament\Attributes\DumpFormState('customStatePath')]
+class CustomPage extends Page
+{
+    public array $customStatePath = []; // You can define a custom state path if needed
+
+    public function form(Form $form): Form
+    {
+        return $form
+            ->statePath('customStatePath')
+            ->schema([
+                // ... other fields
+            ]);
+    }
+}
+```
+
+> **Important:** The `DumpFormState` attribute only captures reactive fields (those defined with `->live()`). Non-reactive fields will not be included in the dump.
+
 ### 📊 Table Debugging
 
 The `ds()` method on Filament tables provides comprehensive debugging information about the table's configuration, query performance, and structure.
