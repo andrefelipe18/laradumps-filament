@@ -4,9 +4,11 @@ declare(strict_types = 1);
 
 namespace LaraDumpsFilament\Debuggers;
 
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\BulkAction;
+use Exception;
+use Filament\Actions\Action;
+use Filament\Actions\BulkAction;
 use Filament\Tables\Columns\Column;
+use Filament\Tables\Filters\BaseFilter;
 use Filament\Tables\Table;
 
 class TableDebug extends BaseDebug
@@ -18,8 +20,7 @@ class TableDebug extends BaseDebug
         public ?array $pagination = null,
         public ?array $performance = null,
         public ?array $actions = null,
-    ) {
-    }
+    ) {}
 
     public static function mountQuery(Table $table): array
     {
@@ -32,7 +33,7 @@ class TableDebug extends BaseDebug
         try {
             $totalRecords = $query->count();
             $queryTime    = round((microtime(true) - $startQuery) * 1000, 2);
-        } catch (\Exception) {
+        } catch (Exception) {
         }
 
         return [
@@ -70,7 +71,7 @@ class TableDebug extends BaseDebug
             'Type'       => class_basename($column),
         ])->toArray();
 
-        $filters = collect($table->getFilters())->map(fn (\Filament\Tables\Filters\BaseFilter $filter, string $name): array => [
+        $filters = collect($table->getFilters())->map(fn (BaseFilter $filter, string $name): array => [
             'Name'  => $name,
             'Label' => $filter->getLabel(),
         ])->toArray();
