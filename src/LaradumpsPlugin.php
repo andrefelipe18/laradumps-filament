@@ -6,10 +6,13 @@ namespace LaraDumpsFilament;
 
 use Filament\Contracts\Plugin;
 use Filament\Forms\Components\Field;
-use Filament\Forms\Get;
 use Filament\Panel;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Tables\Table;
 use Filament\View\PanelsRenderHook;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Log;
+use LaraDumps\LaraDumpsCore\LaraDumps;
 use LaraDumpsFilament\Debuggers\FieldDebug;
 use LaraDumpsFilament\Debuggers\TableDebug;
 
@@ -31,9 +34,7 @@ class LaraDumpsPlugin implements Plugin
         $this->registerHooks($panel);
     }
 
-    public function boot(Panel $panel): void
-    {
-    }
+    public function boot(Panel $panel): void {}
 
     public static function make(): static
     {
@@ -55,7 +56,7 @@ class LaraDumpsPlugin implements Plugin
             )
             ->renderHook(
                 PanelsRenderHook::BODY_END,
-                fn (): string => \Blade::render('@livewire(\'LaraDumpsFilament\DsComponent\')'),
+                fn (): string => Blade::render('@livewire(\'LaraDumpsFilament\DsComponent\')'),
             );
     }
 
@@ -66,7 +67,7 @@ class LaraDumpsPlugin implements Plugin
             $field = $this;
 
             if (! app()->isLocal()) {
-                \Log::debug('LaraDumps: ds() macro called in non-local environment, skipping.');
+                Log::debug('LaraDumps: ds() macro called in non-local environment, skipping.');
 
                 return $field;
             }
@@ -74,7 +75,7 @@ class LaraDumpsPlugin implements Plugin
             $field
                 ->live($onBlur, $debounce)
                 ->afterStateUpdated(
-                    function (mixed $state, mixed $old, Get $get) use ($color, $field): \LaraDumps\LaraDumpsCore\LaraDumps {
+                    function (mixed $state, mixed $old, Get $get) use ($color, $field): LaraDumps {
                         $fieldDebug = new FieldDebug(
                             oldValue: $old,
                             newValue: $state,
@@ -104,7 +105,7 @@ class LaraDumpsPlugin implements Plugin
             $table = $this;
 
             if (! app()->isLocal()) {
-                \Log::debug('LaraDumps: ds() macro called in non-local environment, skipping.');
+                Log::debug('LaraDumps: ds() macro called in non-local environment, skipping.');
 
                 return $table;
             }
